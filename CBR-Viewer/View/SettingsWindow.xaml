@@ -1,0 +1,451 @@
+﻿<Window x:Class="CBR_Viewer.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras"
+        SnapsToDevicePixels="True"
+        Height="410" Width="350"         
+        Title="Settings"
+		WindowStartupLocation="CenterOwner" 
+		ShowInTaskbar="False" 
+		ResizeMode="NoResize"
+        Background="#FFF4DCC1"
+        mc:Ignorable="d"
+        DataContext="{Binding Settings, Source={StaticResource Locator}}">
+
+    <Window.Resources>
+    </Window.Resources>
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Width="320" Height="300" 
+                  Grid.Row="0"
+                  Grid.Column="0"
+                  VerticalScrollBarVisibility="Auto" 
+                  HorizontalScrollBarVisibility="Hidden">
+        <StackPanel Orientation="Vertical">
+                <GroupBox 
+            Header="General Settings"
+            Grid.Column="0" 
+            Grid.Row="0" 
+            Margin="4" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="0" 
+                Text="Save Position:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"></TextBlock>
+                        <CheckBox
+                Margin="2"
+                Grid.Column="2"
+                Grid.Row="0"
+                IsChecked="{Binding IsSavePosition}"
+                IsEnabled="True"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"></CheckBox>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="1" 
+                Text="Length Recent List:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"></TextBlock>
+                        <ComboBox 
+                            Grid.Column="2" 
+                            Grid.Row="1" 
+                            Margin="4" 
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Center"
+                            SelectedIndex="{Binding NumberOfRecent}">
+                            <ComboBoxItem Content="  0 "/>
+                            <ComboBoxItem Content="  1 "/>
+                            <ComboBoxItem Content="  2 "/>
+                            <ComboBoxItem Content="  3 "/>
+                            <ComboBoxItem Content="  4 "/>
+                            <ComboBoxItem Content="  5 "/>
+                            <ComboBoxItem Content="  6 "/>
+                            <ComboBoxItem Content="  7 "/>
+                            <ComboBoxItem Content="  8 "/>
+                            <ComboBoxItem Content="  9 "/>
+                            <ComboBoxItem Content=" 10 "/>
+                        </ComboBox>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="2" 
+                Text="Dynamic CommandBar:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"></TextBlock>
+                        <CheckBox
+                Margin="2"
+                Grid.Column="2"
+                Grid.Row="2"
+                IsChecked="{Binding IsDynamic}"
+                IsEnabled="True"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"></CheckBox>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="3" 
+                Text="Save Scaling:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"></TextBlock>
+                        <CheckBox
+                Margin="2"
+                Grid.Column="2"
+                Grid.Row="3"
+                IsChecked="{Binding IsSaveScaling}"
+                IsEnabled="True"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"></CheckBox>
+                    </Grid>
+                </GroupBox>
+                <GroupBox 
+            Header="Keyboard Viewing"
+            Grid.Column="0" 
+            Grid.Row="1" 
+            Margin="4" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="0" 
+                Text="Zoom in:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="2" 
+                Grid.Row="0" 
+                Text="Key +" 
+                TextAlignment="Left" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="1" 
+                Text="Zoom out:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"></TextBlock>
+                        <TextBlock 
+                Grid.Column="2" 
+                Grid.Row="1" 
+                Text="Key -" 
+                TextAlignment="Left" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="2" 
+                Text="Next:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="2" 
+                Grid.Row="2" 
+                Text="Key Page Down" 
+                TextAlignment="Left" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="3" 
+                Text="Previous:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="2" 
+                Grid.Row="3" 
+                Text="Key Page Up" 
+                TextAlignment="Left" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="4" 
+                Text="First Page:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="2" 
+                Grid.Row="4" 
+                Text="Key Home" 
+                TextAlignment="Left" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="5" 
+                Text="Last Page:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="2" 
+                Grid.Row="5" 
+                Text="Key End" 
+                TextAlignment="Left" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox 
+            Header="Keyboard Last Opened Menu"
+            Grid.Column="0" 
+            Grid.Row="1" 
+            Margin="4" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="0" 
+                Text="Item 0:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="2" 
+                Grid.Row="0" 
+                Text="Key Ctrl+0" 
+                TextAlignment="Left" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="1" 
+                Text="Item 1:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="2" 
+                Grid.Row="1" 
+                Text="Key Ctrl+1" 
+                TextAlignment="Left" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="2" 
+                Text="Item 2:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="2" 
+                Grid.Row="2" 
+                Text="Key Ctrl+2" 
+                TextAlignment="Left" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="3" 
+                Text="..." 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox 
+            Header="Keyboard Commands"
+            Grid.Column="0" 
+            Grid.Row="1" 
+            Margin="4" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="0" 
+                Text="Open:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="2" 
+                Grid.Row="0" 
+                Text="Key Ctrl+O" 
+                TextAlignment="Left" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="1" 
+                Text="Close:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"></TextBlock>
+                        <TextBlock 
+                Grid.Column="2" 
+                Grid.Row="1" 
+                Text="Key Ctrl+C" 
+                TextAlignment="Left" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="2" 
+                Text="Fit All:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="2" 
+                Grid.Row="2" 
+                Text="Key Ctrl+F" 
+                TextAlignment="Left" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="3" 
+                Text="Fit Horizontally:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="2" 
+                Grid.Row="3" 
+                Text="Key Ctrl+H" 
+                TextAlignment="Left" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="4" 
+                Text="Fit Vertically:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="2" 
+                Grid.Row="4" 
+                Text="Key Ctrl+V" 
+                TextAlignment="Left" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="5" 
+                Text="Settings:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="2" 
+                Grid.Row="5" 
+                Text="Key Ctrl+S" 
+                TextAlignment="Left" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="0" 
+                Grid.Row="6" 
+                Text="About:" 
+                TextAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                        <TextBlock 
+                Grid.Column="2" 
+                Grid.Row="6" 
+                Text="Key Ctrl+A" 
+                TextAlignment="Left" 
+                VerticalAlignment="Center" 
+                Margin="2"/>
+                    </Grid>
+                </GroupBox>
+        </StackPanel>
+        </ScrollViewer>
+        <StackPanel 
+            Orientation="Horizontal" 
+            Grid.Row="1" 
+            HorizontalAlignment="Right" 
+            VerticalAlignment="Center">
+            <Button 
+                Name="buttonOk" 
+                Width="82" 
+                Height="22" 
+                Foreground="White"
+                Margin="4" 
+                Content="Ok" 
+                IsDefault="True" 
+                Style="{StaticResource BorderlessButton}"
+                ToolTipService.ToolTip="Close and Accept" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <cmd:EventToCommand Command="{Binding OKCommand}"/>
+                     </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+            </Button>
+            <Button 
+                Name="buttonCancel" 
+                Width="82" 
+                Height="22" 
+                Foreground="White"
+                Margin="4" 
+                Content="Cancel" 
+                IsCancel="True"
+                Style="{StaticResource BorderlessButton}"
+                ToolTipService.ToolTip="Close and Reject" />
+        </StackPanel>
+    </Grid>
+</Window>

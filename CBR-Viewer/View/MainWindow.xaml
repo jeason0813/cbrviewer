@@ -1,0 +1,320 @@
+﻿<Window x:Class="CBR_Viewer.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras"
+    xmlns:ac="clr-namespace:AdornedControl;assembly=AdornedControl"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cbr="clr-namespace:CBR_Viewer.Extended" mc:Ignorable="d" SnapsToDevicePixels="True"
+    DataContext="{Binding Main, Source={StaticResource Locator}}"
+    Height="{Binding Path=Settings.Height, Mode=TwoWay}"
+    Width="{Binding Path=Settings.Width, Mode=TwoWay}"
+    Top="{Binding Path=Settings.Top, Mode=TwoWay}" Left="{Binding Path=Settings.Left, Mode=TwoWay}"
+    Title="{Binding  Mode=OneWay, Path=Settings.Title}"
+    WindowState="{Binding Path=Settings.WindowState, Mode=TwoWay}"
+    Icon="/CBReader;component/pics/CBR%20048.png" KeyboardNavigation.TabNavigation="Cycle"
+    Background="#FFF4DCC1" MinWidth="650" MinHeight="200">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Skins/MainSkin.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <cmd:EventToCommand Command="{Binding Window_LoadedCommand}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closed">
+            <cmd:EventToCommand Command="{Binding Window_ClosedCommand}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewKeyDown">
+            <cmd:EventToCommand Command="{Binding KeyDownCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <ac:AdornedControl Name="LoadingAdorner">
+        <ac:AdornedControl.AdornerContent>
+            <cbr:LoadingWait/>
+        </ac:AdornedControl.AdornerContent>
+
+        <DockPanel>
+            <Expander Header="Commands" DockPanel.Dock="Top" Style="{StaticResource ExpanderStyle6}"
+                HorizontalAlignment="Stretch"
+                IsExpanded="{Binding  Mode=TwoWay, Path=CommandsVisible}">
+                <i:Interaction.Triggers>
+                    <!-- Wire the MouseLeftButtonDown event to the corresponding command in the ViewModel -->
+                    <i:EventTrigger EventName="MouseEnter">
+                        <cmd:EventToCommand Command="{Binding MouseEnterCommand}"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <cmd:EventToCommand Command="{Binding MouseLeaveCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Margin="5,5,0,5" Width="86" Height="48"
+                        Style="{StaticResource BorderlessButton}"
+                        ToolTipService.ToolTip="Click to Open ...">
+                        <Image Source="{Binding Path=ImgOpen, Mode=OneTime}"/>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cmd:EventToCommand Command="{Binding SimpleCommand}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeave">
+                                <cmd:EventToCommand Command="{Binding ResetCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <!--<Button Margin="0,5,3,5" Width="24" Height="48"
+                    Style="{StaticResource BorderlessButton}"
+                    ToolTipService.ToolTip="Click for Recently Used ..." >
+                <Image Source="{Binding Path=ImgRU, Mode=OneTime}"/>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <cmd:EventToCommand Command="{Binding RecentlyUsedCommand}" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <cmd:EventToCommand Command="{Binding ResetCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>-->
+                    <!--<Menu Margin="0,4,3,5" Width="24" Height="48"
+                        Background="{DynamicResource ShadeBrush}"
+                        Foreground="{DynamicResource TextBrush}">
+                        <MenuItem Header="s" Foreground="#FFFFFFFF" Background="#FFF7941E"
+                            FontSize="11" FontWeight="Bold" FontFamily="Wingdings 3" x:Name="menu"
+                        > </MenuItem>
+                    </Menu>-->
+                    <Button 
+                        x:Name="menuButton"
+                        Margin="2,5,3,5" 
+                        Width="24" 
+                        Height="48"
+                        Style="{StaticResource BorderlessButton}"
+                        ToolTipService.ToolTip="Recent ...">
+                        <Image Source="{Binding Path=ImgRecent, Mode=OneTime}"/>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cmd:EventToCommand Command="{Binding RecentCommand}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeave">
+                                <cmd:EventToCommand Command="{Binding ResetCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button Margin="2,5,15,5" Width="86" Height="48"
+                        Style="{StaticResource BorderlessButton}"
+                        ToolTipService.ToolTip="Click to Close">
+                        <Image Source="{Binding Path=ImgClose, Mode=OneTime}"/>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cmd:EventToCommand Command="{Binding CloseCommand}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeave">
+                                <cmd:EventToCommand Command="{Binding ResetCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button Margin="2,5,3,5" Width="48" Height="48"
+                        Style="{StaticResource BorderlessButton}" ToolTipService.ToolTip="Fit Image">
+                        <Image Source="{Binding Path=ImgFit, Mode=OneWay}"/>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cmd:EventToCommand Command="{Binding FitCommand}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeave">
+                                <cmd:EventToCommand Command="{Binding ResetCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button Margin="2,5,3,5" Width="48" Height="48"
+                        Style="{StaticResource BorderlessButton}"
+                        ToolTipService.ToolTip="Fit Image Horizontally">
+                        <Image Source="{Binding Path=ImgHor, Mode=OneWay}"/>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cmd:EventToCommand Command="{Binding FitHorCommand}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeave">
+                                <cmd:EventToCommand Command="{Binding ResetCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button Margin="2,5,15,5" Width="48" Height="48"
+                        Style="{StaticResource BorderlessButton}"
+                        ToolTipService.ToolTip="Fit Image Vertically">
+                        <Image Source="{Binding Path=ImgVert, Mode=OneWay}"/>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cmd:EventToCommand Command="{Binding FitVertCommand}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeave">
+                                <cmd:EventToCommand Command="{Binding ResetCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button Margin="2,5,3,5" Width="48" Height="48"
+                        Style="{StaticResource BorderlessButton}"
+                        ToolTipService.ToolTip="Goto First [Key Home]">
+                        <Image Source="{Binding Path=ImgFirst, Mode=OneTime}"/>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cmd:EventToCommand Command="{Binding FirstCommand}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeave">
+                                <cmd:EventToCommand Command="{Binding ResetCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button Margin="2,5,3,5" Width="48" Height="48"
+                        Style="{StaticResource BorderlessButton}"
+                        ToolTipService.ToolTip="Goto Previous [Key PageUp]">
+                        <Image Source="{Binding Path=ImgPrev, Mode=OneTime}"/>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cmd:EventToCommand Command="{Binding PrevCommand}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeave">
+                                <cmd:EventToCommand Command="{Binding ResetCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button Margin="2,5,3,5" Width="48" Height="48"
+                        Style="{StaticResource BorderlessButton}"
+                        ToolTipService.ToolTip="Goto Next [Key PageDown]">
+                        <Image Source="{Binding Path=ImgNext, Mode=OneTime}"/>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cmd:EventToCommand Command="{Binding NextCommand}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeave">
+                                <cmd:EventToCommand Command="{Binding ResetCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button Margin="2,5,15,5" Width="48" Height="48"
+                        Style="{StaticResource BorderlessButton}"
+                        ToolTipService.ToolTip="Goto Last [Key End]">
+                        <Image Source="{Binding Path=ImgLast, Mode=OneTime}"/>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cmd:EventToCommand Command="{Binding LastCommand}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeave">
+                                <cmd:EventToCommand Command="{Binding ResetCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button Margin="2,5,3,5" Width="86" Height="48"
+                        Style="{StaticResource BorderlessButton}"
+                        ToolTipService.ToolTip="Click for Settings ...">
+                        <Image Source="{Binding Path=ImgSettings, Mode=OneTime}"/>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cmd:EventToCommand Command="{Binding SettingsCommand}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeave">
+                                <cmd:EventToCommand Command="{Binding ResetCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button Margin="2,5,3,5" Width="86" Height="48"
+                        Style="{StaticResource BorderlessButton}"
+                        ToolTipService.ToolTip="Click for About ...">
+                        <Image Source="{Binding Path=ImgAbout, Mode=OneTime}"/>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cmd:EventToCommand Command="{Binding AboutCommand}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeave">
+                                <cmd:EventToCommand Command="{Binding ResetCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </StackPanel>
+            </Expander>
+
+            <StatusBar DockPanel.Dock="Bottom" Background="{DynamicResource ShadeBrush}"
+                Foreground="{DynamicResource TextBrush}">
+                <StatusBarItem HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Margin="5,0,0,0">
+                    <Image Width="16" Height="16" Source="{Binding Path=ImgStatusBar}"/>
+                </StatusBarItem>
+                <StatusBarItem HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Margin="5,0,0,0" Content="{Binding  Mode=OneWay, Path=PathName}"/>
+                <StatusBarItem HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Margin="5,0,5,0" Content="{Binding  Mode=OneWay, Path=PageName}"/>
+                <StatusBarItem HorizontalAlignment="Right" VerticalAlignment="Center"
+                    Margin="5,0,5,0" Content="{Binding  Mode=OneWay, Path=FileName}"/>
+            </StatusBar>
+            <DockPanel>
+                <Expander Header="Pages" DockPanel.Dock="Left" ExpandDirection="Right">
+                    <ListBox Margin="5,5,5,5" Name="listBox1"
+                        ItemsSource="{Binding Path= MyBookPages}"
+                        Background="{DynamicResource ShadeBrush}" HorizontalAlignment="Left"
+                        BorderThickness="0" SelectedIndex="{Binding SelIndex, Mode=TwoWay}"
+                        IsTabStop="True" SelectionChanged="listBox1_SelectionChanged">
+                        <!--<i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <cmd:EventToCommand Command="{Binding SelectionChangedCommand}" PassEventArgsToCommand="True"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>-->
+                        <ListBox.BorderBrush>
+                            <SolidColorBrush/>
+                        </ListBox.BorderBrush>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding}" Width="180" Margin="5" Stretch="Fill"/>
+                            </DataTemplate>
+
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+
+                <Grid>
+                    <ScrollViewer Name="sv" Grid.Row="0" Grid.Column="0" Margin="5"
+                        ScrollViewer.PanningMode="VerticalOnly"
+                        HorizontalScrollBarVisibility="Visible"
+                        VerticalScrollBarVisibility="Visible">
+                        <i:Interaction.Triggers>
+                            <!--<i:EventTrigger EventName="PreviewKeyDown">
+                        <cmd:EventToCommand Command="{Binding KeyDownCommand}" PassEventArgsToCommand="True"/>
+                    </i:EventTrigger> -->
+                            <i:EventTrigger EventName="PreviewMouseWheel">
+                                <cmd:EventToCommand Command="{Binding MouseWheelCommand}"
+                                    PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+                        <Rectangle Width="{Binding Path=ImageWidth, Mode=OneWay}"
+                            Height="{Binding Path=ImageHeight, Mode=OneWay}">
+                            <i:Interaction.Triggers> </i:Interaction.Triggers>
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="{Binding Path=Image, Mode=OneWay}"
+                                    Viewbox="0,0,1.0,1.0"
+                                    Viewport="{Binding Path=ImageRect, Mode=OneWay}"
+                                    ViewportUnits="Absolute"/>
+                            </Rectangle.Fill>
+
+                        </Rectangle>
+                        <!--<Image  Grid.Row="0" Grid.Column="0" Source="{Binding Path=Image, Mode=OneWay}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseWheel">
+                            <cmd:EventToCommand Command="{Binding MouseWheelCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Image>-->
+                    </ScrollViewer>
+                    <Rectangle Grid.Row="0" Grid.Column="0" SizeChanged="Rectangle_SizeChanged">
+                        <!--<i:Interaction.Triggers>-->
+                        <!-- Wire the MouseLeftButtonDown event to the corresponding command in the ViewModel -->
+                        <!--<i:EventTrigger EventName="SizeChanged">
+                        <cmd:EventToCommand Command="{Binding SizeChangedCommand}" PassEventArgsToCommand="True"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>-->
+                    </Rectangle>
+                </Grid>
+            </DockPanel>
+        </DockPanel>
+    </ac:AdornedControl>
+</Window>
